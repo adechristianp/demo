@@ -1,13 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { AppState } from './store';
+import { createSlice } from '@reduxjs/toolkit'
 
-export interface CounterState {
-  value: number
-  scrollPosition: number,
-  status: 'idle' | 'loading' | 'failed'
-}
-
-const initialState: CounterState = {
+const initialState = {
   value: 0,
   status: 'idle',
   scrollPosition: 0
@@ -29,10 +22,10 @@ export const counterSlice = createSlice({
       state.value -= 1
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {
+    incrementByAmount: (state, action) => {
       state.value += action.payload
     },
-    setScrollPosition: (state, action: PayloadAction<number>) => {
+    setScrollPosition: (state, action) => {
       state.scrollPosition = action.payload
     }
   }
@@ -40,9 +33,9 @@ export const counterSlice = createSlice({
 
 export const { increment, decrement, incrementByAmount, setScrollPosition } = counterSlice.actions;
 
-export const selectCount = (state: AppState) => state.counter.value;
+export const selectCount = (state) => state.counter.value;
 
-export const selectState = (state: AppState) => state.counter;
+export const selectState = (state) => state.counter;
 
 
 export default counterSlice.reducer;
