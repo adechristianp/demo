@@ -6,41 +6,80 @@ import {
   Grid,
   Toolbar,
   Typography,
-  Rating
+  Rating,
+  InputBase,
+  IconButton
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { ToolBar as AniToolBar, Pagination } from '../../components'
 
-const useAnimesEffect = (props, setAnimes, setPages) => {
-  const { pageList, pageInfo, } = props;
+const renderAnimeCard = (data) => {
+  const { id, title, coverImage, averageScore } = data;
+  const rating = averageScore / 20;
 
+  return (
+    <Card css={{ maxWidth: 400 }}>
+      <CardActionArea>
+        <Link
+          href={{
+            pathname: '/AnimeDetail',
+            query: {
+              id: id
+            }
+          }}>
+          <CardContent css={{ alignContent: 'center', padding: 0 }}>
+            <Image
+              alt='pokemon'
+              src={coverImage.large}
+              layout='intrinsic'
+              width={400}
+              height={400}
+            />
+            <div css={{ minHeight: 50, padding: 10 }}>
+              <Typography gutterBottom variant="h3" component="div" noWrap>
+                {title.romaji || 'No Title'}
+              </Typography>
+              <Rating
+                value={rating}
+                readOnly
+                precision={0.5}
+                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />}
+              />
+            </div>
+          </CardContent>
+        </Link>
+      </CardActionArea>
+    </Card>
+  )
+};
+
+const useAnimesEffect = ({ pageList }, setAnimes) => {
   useEffect(() => {
     setAnimes(pageList);
-    setPages(pageInfo);
+    // setPages(pageInfo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageList, pageInfo]);
+  }, [pageList]);
 };
 
 const AnimeList = (props) => {
   const { loading, pageList, pageInfo, fetchMore } = props;
   const [animes, setAnimes] = useState(pageList);
-  const [pages, setPages] = useState(pageInfo);
   const [page, setPage] = useState(1);
 
-  useAnimesEffect(props, setAnimes, setPages);
+  useAnimesEffect(props, setAnimes);
 
   const handlePageChange = async (event, value) => {
-    const { data: { Page: { pageInfo, media } } } = await fetchMore({
+    const { data: { Page: { media } } } = await fetchMore({
       variables: { page: value, perPage: 12 }
     });
 
     setPage(value);
     setAnimes(media);
-    setPages(pageInfo);
   };
 
   if (loading) return <div>loading...</div>
@@ -50,48 +89,30 @@ const AnimeList = (props) => {
   return (
     <div>
       <AniToolBar {...props}>
-        Card
+        <Toolbar css={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="h6" component="div">
+            Ani-animo
+          </Typography>
+          <div css={{ display: 'flex', justifyContent: 'space-between', }}>
+            <InputBase
+              css={{ marginLeft: 10 }}
+              placeholder="search your animo"
+            />
+            <IconButton type="submit" css={{ p: 10 }} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </div>
+        </Toolbar>
       </AniToolBar>
-      <Toolbar />
-      <Grid container spacing={3} css={{ padding: 20 }}>
-        {animes.map((data, i) => {
-          const { title, coverImage, averageScore } = data;
-          const rating = averageScore / 20;
-
-          return (
-            <Grid item key={i} xs={6} md={4} lg={3} offset={2}>
-              <Card css={{ maxWidth: 400 }}>
-                <CardActionArea>
-                  <Link href='/AnimeDetail'>
-                    <CardContent css={{ alignContent: 'center', padding: 0 }}>
-                      <Image
-                        alt='pokemon'
-                        src={coverImage.large}
-                        layout='intrinsic'
-                        width={400}
-                        height={400}
-                      />
-                      <div css={{ minHeight: 50, padding: 10 }}>
-                        <Typography gutterBottom variant="h3" component="div" noWrap>
-                          {title.romaji || 'No Title'}
-                        </Typography>
-                        <Rating
-                          value={rating}
-                          readOnly
-                          precision={0.5}
-                          emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />}
-                        />
-                      </div>
-                    </CardContent>
-                  </Link>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          )
-        })}
+      <Grid container spacing={3} css={{ padding: 20, marginTop: 30 }}>
+        {animes.map((data, i) => (
+          <Grid item key={i} xs={6} md={4} lg={3} offset={2}>
+            {renderAnimeCard(data)}
+          </Grid>
+        ))}
       </Grid>
       <Pagination
-        count={pages.lastPage}
+        count={pageInfo.lastPage}
         page={page}
         handlePageChange={handlePageChange}
       />
