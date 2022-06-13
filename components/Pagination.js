@@ -6,7 +6,7 @@ const paginationWrapper = css({
   display: 'flex',
   width: '100%',
   justifyContent: 'center',
-  padding: 10
+  padding: 5
 });
 
 const CustomPagination = (props) => {

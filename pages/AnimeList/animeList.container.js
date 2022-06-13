@@ -18,7 +18,6 @@ const ANIMELIST_Q = gql`
       media {
         id
         title {
-          english
           romaji
         }
         coverImage {
@@ -26,6 +25,7 @@ const ANIMELIST_Q = gql`
           medium
           color
         }
+        averageScore
       }
     }
   }

@@ -6,10 +6,12 @@ import {
   Grid,
   Toolbar,
   Typography,
+  Rating
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import StarIcon from '@mui/icons-material/Star';
 
 import { ToolBar as AniToolBar, Pagination } from '../../components'
 
@@ -43,6 +45,8 @@ const AnimeList = (props) => {
 
   if (loading) return <div>loading...</div>
 
+  if (animes.length === 0) return <div>No Data</div>
+
   return (
     <div>
       <AniToolBar {...props}>
@@ -51,7 +55,9 @@ const AnimeList = (props) => {
       <Toolbar />
       <Grid container spacing={3} css={{ padding: 20 }}>
         {animes.map((data, i) => {
-          const { title, coverImage } = data;
+          const { title, coverImage, averageScore } = data;
+          const rating = averageScore / 20;
+
           return (
             <Grid item key={i} xs={6} md={4} lg={3} offset={2}>
               <Card css={{ maxWidth: 400 }}>
@@ -69,6 +75,12 @@ const AnimeList = (props) => {
                         <Typography gutterBottom variant="h3" component="div" noWrap>
                           {title.romaji || 'No Title'}
                         </Typography>
+                        <Rating
+                          value={rating}
+                          readOnly
+                          precision={0.5}
+                          emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />}
+                        />
                       </div>
                     </CardContent>
                   </Link>
@@ -83,9 +95,6 @@ const AnimeList = (props) => {
         page={page}
         handlePageChange={handlePageChange}
       />
-      {/* <Stack spacing={4}>
-        <Pagination count={pages.lastPage} page={page} onChange={handlePageChange} />
-      </Stack> */}
     </div >
   )
 };
