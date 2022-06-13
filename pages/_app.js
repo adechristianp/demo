@@ -1,5 +1,8 @@
 import { ApolloClient, ApolloProvider, InMemoryCache, } from '@apollo/client'
+import { ThemeProvider } from '@mui/material/styles';
 import '../styles/globals.css'
+import theme from '../styles/theme';
+
 
 const client = new ApolloClient({
   uri: 'https://graphql.anilist.co/',
@@ -10,7 +13,9 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
-      < Component {...pageProps} />
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </ApolloProvider>
   )
 }
