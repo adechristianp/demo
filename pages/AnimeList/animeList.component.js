@@ -4,15 +4,14 @@ import {
   CardActionArea,
   CardContent,
   Grid,
-  Pagination,
-  Stack,
   Toolbar,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import { ToolBar as AniToolBar } from '../../components'
+import { ToolBar as AniToolBar, Pagination } from '../../components'
 
 const useAnimesEffect = (props, setAnimes, setPages) => {
   const { pageList, pageInfo, } = props;
@@ -57,29 +56,36 @@ const AnimeList = (props) => {
             <Grid item key={i} xs={6} md={4} lg={3} offset={2}>
               <Card css={{ maxWidth: 400 }}>
                 <CardActionArea>
-                  <CardContent css={{ alignContent: 'center', padding: 0 }}>
-                    <Image
-                      alt='pokemon'
-                      src={coverImage.large}
-                      layout='intrinsic'
-                      width={400}
-                      height={400}
-                    />
-                    <div css={{ minHeight: 50, padding: 10 }}>
-                      <Typography gutterBottom variant="h3" component="div" noWrap>
-                        {title.romaji || 'No Title'}
-                      </Typography>
-                    </div>
-                  </CardContent>
+                  <Link href='/AnimeDetail'>
+                    <CardContent css={{ alignContent: 'center', padding: 0 }}>
+                      <Image
+                        alt='pokemon'
+                        src={coverImage.large}
+                        layout='intrinsic'
+                        width={400}
+                        height={400}
+                      />
+                      <div css={{ minHeight: 50, padding: 10 }}>
+                        <Typography gutterBottom variant="h3" component="div" noWrap>
+                          {title.romaji || 'No Title'}
+                        </Typography>
+                      </div>
+                    </CardContent>
+                  </Link>
                 </CardActionArea>
               </Card>
             </Grid>
           )
         })}
       </Grid>
-      <Stack spacing={4}>
+      <Pagination
+        count={pages.lastPage}
+        page={page}
+        handlePageChange={handlePageChange}
+      />
+      {/* <Stack spacing={4}>
         <Pagination count={pages.lastPage} page={page} onChange={handlePageChange} />
-      </Stack>
+      </Stack> */}
     </div >
   )
 };
