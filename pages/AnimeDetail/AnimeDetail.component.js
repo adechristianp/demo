@@ -11,8 +11,6 @@ import { css } from '@emotion/react';
 
 import { invertColor, timeConvert } from '../../utils';
 import { AniToolBar, CollectionDialog } from '../../components';
-import { useAppDispatch, useAppSelector } from '../../reducer/hooks';
-import { selectCollection } from '../../reducer/counter.slice';
 
 const wrapper = (color) => css({
   minHeight: 1,

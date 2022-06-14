@@ -18,11 +18,6 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { AniToolBar, Pagination } from '../../components'
 
-const localStorageSave = (data) => {
-  console.log('data', data);
-  localStorage.setItem('CHECK_STORAGE', data);
-}
-
 const renderToolbar = (props) => (
   <AniToolBar {...props}>
     <Toolbar css={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -56,7 +51,7 @@ const renderAnimeCard = (data) => {
 
   return (
     <Card css={{ maxWidth: 400 }}>
-      <CardActionArea onClick={() => localStorageSave(data)}>
+      <CardActionArea>
         <Link
           href={{
             pathname: '/AnimeDetail',

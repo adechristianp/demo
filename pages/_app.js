@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import store from '../reducer/store';
 import theme from '../styles/theme';
 import createEmotionCache from '../styles/createEmotionCache';
-
+import LocalDataProvider from './LocalDataProvider';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -74,17 +74,19 @@ const MyApp = (props) => {
         <CssBaseline />
         <ApolloProvider client={client} >
           <Provider store={store}>
-            <div style={{ display: isRetainableRoute ? 'block' : 'none' }}>
-              {Object.entries(retainedComponents.current).map(([path, c]) => (
-                <div
-                  key={path}
-                  style={{ display: router.asPath === path ? 'block' : 'none' }}
-                >
-                  {c.component}
-                </div>
-              ))}
-            </div>
-            {!isRetainableRoute && <Component {...pageProps} />}
+            <LocalDataProvider>
+              <div style={{ display: isRetainableRoute ? 'block' : 'none' }}>
+                {Object.entries(retainedComponents.current).map(([path, c]) => (
+                  <div
+                    key={path}
+                    style={{ display: router.asPath === path ? 'block' : 'none' }}
+                  >
+                    {c.component}
+                  </div>
+                ))}
+              </div>
+              {!isRetainableRoute && <Component {...pageProps} />}
+            </LocalDataProvider>
           </Provider>
         </ApolloProvider >
       </ThemeProvider>
