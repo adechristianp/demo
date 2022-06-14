@@ -1,20 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /** @jsxImportSource @emotion/react */
+import { useState } from 'react';
 import {
   Alert,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Typography,
   useMediaQuery,
   TextField,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Snackbar,
   RadioGroup,
   Radio,
@@ -24,19 +20,22 @@ import { useTheme } from '@mui/material/styles';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useAppDispatch, useAppSelector } from '../reducer/hooks';
-import { addCollection, selectCollection, selectState } from '../reducer/counter.slice';
-import { useState } from 'react';
+import { addCollection, selectCollection, addAnime } from '../reducer/collection.slice';
 
+const initialState = {
+  input: '',
+  show: false,
+  selectedCollection: ''
+};
 
 const CollectionDialog = (props) => {
   const { open, setOpen, media } = props;
   const dispatch = useAppDispatch();
-  const collections = useAppSelector(selectCollection);
-  const [input, setInput] = useState('');
-  const [show, setShow] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState('')
+  const [state, setState] = useState(initialState);
+  const { input, show, selectedCollection } = state;
 
-  console.log('collections', collections);
+  const handleSetState = (value) => setState({ ...state, ...value })
+  const collections = useAppSelector(selectCollection);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -44,14 +43,25 @@ const CollectionDialog = (props) => {
     setOpen(false);
   };
 
+  const handleSaveAnime = () => {
+    const payload = {
+      collection: selectedCollection,
+      animeId: media.id,
+      title: media.title
+    };
+
+    dispatch(addAnime(payload));
+    setOpen(false);
+  };
+
   const useAddCollection = (input) => {
     if (collections.find(data => data === input)) {
-      setShow(true);
+      handleSetState({ show: true });
       return;
     }
 
     dispatch(addCollection(input));
-    setInput('');
+    handleSetState({ input: '' })
   };
 
   return (
@@ -73,7 +83,7 @@ const CollectionDialog = (props) => {
               label="input collection name"
               variant="filled"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => handleSetState({ input: e.target.value })}
             />
             <Button type="submit" aria-label="search" onClick={() => useAddCollection(input)}>
               <AddCircleIcon fontSize='large' />
@@ -83,7 +93,7 @@ const CollectionDialog = (props) => {
           {collections.length > 0 &&
             <RadioGroup
               value={selectedCollection}
-              onChange={(e) => setSelectedCollection(e.target.value)}
+              onChange={(e) => handleSetState({ selectedCollection: e.target.value })}
             >
               <Typography>Please Choose Collection to Save Anime</Typography>
               {collections.map((data, i) =>
@@ -99,7 +109,7 @@ const CollectionDialog = (props) => {
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleSaveAnime}>
             Save
           </Button>
         </DialogActions>
@@ -107,9 +117,9 @@ const CollectionDialog = (props) => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           autoHideDuration={3000}
           open={show}
-          onClose={() => setShow(false)}
+          onClose={() => handleSetState({ show: false })}
         >
-          <Alert severity="error">This is an error message!</Alert>
+          <Alert severity="error">Collection Name Already Exist</Alert>
         </Snackbar>
       </Dialog>
     </div>

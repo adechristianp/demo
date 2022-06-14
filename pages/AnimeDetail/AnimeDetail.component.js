@@ -11,6 +11,8 @@ import { css } from '@emotion/react';
 
 import { invertColor, timeConvert } from '../../utils';
 import { AniToolBar, CollectionDialog } from '../../components';
+import { useAppSelector } from '../../reducer/hooks';
+import { selectAnimes } from '../../reducer/collection.slice';
 
 const wrapper = (color) => css({
   minHeight: 1,
@@ -19,14 +21,14 @@ const wrapper = (color) => css({
   paddingBottom: 30
 });
 
-const fabWrapper = () => css({
+const fabWrapper = (isCollected) => css({
   margin: 0,
   top: 'auto',
   right: 20,
   bottom: 20,
   left: 'auto',
   position: 'fixed',
-  color: 'red',
+  color: isCollected ? 'red' : 'white',
   '@media(min-width: 1200px)': {
     right: 100,
     bottom: 100,
@@ -37,11 +39,13 @@ const AnimeDetail = (props) => {
   const { loading, media } = props;
   const [open, setOpen] = useState(false);
   const { back } = useRouter();
+  const collectedAnimes = useAppSelector(selectAnimes);
 
   if (loading) return <div>loading...</div>
 
-  const { coverImage, title, averageScore, description, genres, format, type, duration } = media;
+  const { id, coverImage, title, averageScore, description, genres, format, type, duration } = media;
   const rating = averageScore / 20;
+  const isCollected = collectedAnimes.find(data => data.animeId === id);
 
   return (
     <div css={wrapper('#fff')}>
@@ -94,7 +98,7 @@ const AnimeDetail = (props) => {
           </div>
         </Grid>
       </Grid>
-      <Fab aria-label="like" css={fabWrapper} onClick={() => setOpen(true)}>
+      <Fab aria-label="like" css={fabWrapper(isCollected)} onClick={() => setOpen(true)}>
         <FavoriteIcon />
       </Fab>
       <CollectionDialog

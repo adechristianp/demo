@@ -35,4 +35,6 @@ export const selectState = (state) => state.collection;
 
 export const selectCollection = (state) => state.collection.collectionList;
 
+export const selectAnimes = (state) => state.collection.animeCollection;
+
 export default collectionSlice.reducer;
