@@ -1,10 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+// const collections = {
+//   id,
+//   collectionName,
+// };
+
 const initialState = {
   value: 0,
   status: 'idle',
-  scrollPosition: 0
-}
+  scrollPosition: 0,
+  collectionList: []
+};
+
 
 export const counterSlice = createSlice({
   name: 'counter',
@@ -27,15 +34,25 @@ export const counterSlice = createSlice({
     },
     setScrollPosition: (state, action) => {
       state.scrollPosition = action.payload
+    },
+    addCollection: (state, action) => {
+      state.collectionList = [...state.collectionList, action.payload]
     }
   }
 })
 
-export const { increment, decrement, incrementByAmount, setScrollPosition } = counterSlice.actions;
+export const {
+  increment,
+  decrement,
+  incrementByAmount,
+  setScrollPosition,
+  addCollection
+} = counterSlice.actions;
 
 export const selectCount = (state) => state.counter.value;
 
 export const selectState = (state) => state.counter;
 
+export const selectCollection = (state) => state.counter.collectionList;
 
 export default counterSlice.reducer;

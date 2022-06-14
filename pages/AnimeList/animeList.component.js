@@ -16,7 +16,39 @@ import { useEffect, useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { ToolBar as AniToolBar, Pagination } from '../../components'
+import { AniToolBar, Pagination } from '../../components'
+
+const localStorageSave = (data) => {
+  console.log('data', data);
+  localStorage.setItem('CHECK_STORAGE', data);
+}
+
+const renderToolbar = (props) => (
+  <AniToolBar {...props}>
+    <Toolbar css={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Typography variant="h5" component="div">
+        Ani-animo
+      </Typography>
+      <div css={{ display: 'flex', justifyContent: 'space-between', }}>
+        <Link href='/AnimeCollection'>
+          <IconButton>
+            <Typography variant="h5" component="div">
+              Collection
+            </Typography>
+          </IconButton>
+        </Link>
+        <InputBase
+          css={{ marginLeft: 10 }}
+          placeholder="search your animo"
+          inputProps={{ style: { fontSize: 18 } }}
+        />
+        <IconButton type="submit" css={{ p: 10 }} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+      </div>
+    </Toolbar>
+  </AniToolBar>
+)
 
 const renderAnimeCard = (data) => {
   const { id, title, coverImage, averageScore } = data;
@@ -24,7 +56,7 @@ const renderAnimeCard = (data) => {
 
   return (
     <Card css={{ maxWidth: 400 }}>
-      <CardActionArea>
+      <CardActionArea onClick={() => localStorageSave(data)}>
         <Link
           href={{
             pathname: '/AnimeDetail',
@@ -41,7 +73,7 @@ const renderAnimeCard = (data) => {
               height={400}
             />
             <div css={{ minHeight: 50, padding: 10 }}>
-              <Typography gutterBottom variant="h3" component="div" noWrap>
+              <Typography gutterBottom variant="h5" component="div" noWrap>
                 {title.romaji || 'No Title'}
               </Typography>
               <Rating
@@ -61,7 +93,6 @@ const renderAnimeCard = (data) => {
 const useAnimesEffect = ({ pageList }, setAnimes) => {
   useEffect(() => {
     setAnimes(pageList);
-    // setPages(pageInfo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageList]);
 };
@@ -73,7 +104,7 @@ const AnimeList = (props) => {
 
   useAnimesEffect(props, setAnimes);
 
-  const handlePageChange = async (event, value) => {
+  const handlePageChange = async (e, value) => {
     const { data: { Page: { media } } } = await fetchMore({
       variables: { page: value, perPage: 12 }
     });
@@ -88,22 +119,7 @@ const AnimeList = (props) => {
 
   return (
     <div>
-      <AniToolBar {...props}>
-        <Toolbar css={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h6" component="div">
-            Ani-animo
-          </Typography>
-          <div css={{ display: 'flex', justifyContent: 'space-between', }}>
-            <InputBase
-              css={{ marginLeft: 10 }}
-              placeholder="search your animo"
-            />
-            <IconButton type="submit" css={{ p: 10 }} aria-label="search">
-              <SearchIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AniToolBar>
+      {renderToolbar(props)}
       <Grid container spacing={3} css={{ padding: 20, marginTop: 30 }}>
         {animes.map((data, i) => (
           <Grid item key={i} xs={6} md={4} lg={3} offset={2}>

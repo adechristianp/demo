@@ -1,7 +1,9 @@
-import ToolBar from './ToolBar';
+import AniToolBar from './AniToolBar';
+import CollectionDialog from './CollectionDialog';
 import Pagination from './Pagination';
 
 export {
-  ToolBar,
+  AniToolBar,
+  CollectionDialog,
   Pagination
 };

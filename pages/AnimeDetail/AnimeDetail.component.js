@@ -1,15 +1,18 @@
 /** @jsxImportSource @emotion/react */
+import { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import StarIcon from '@mui/icons-material/Star';
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Grid, Rating, Typography, Chip, Fab, IconButton } from '@mui/material';
+import { Grid, Rating, Typography, Chip, Fab } from '@mui/material';
 import { css } from '@emotion/react';
 
-import { invertColor } from '../../utils';
-import { ToolBar as ElevateToolbar } from '../../components';
+import { invertColor, timeConvert } from '../../utils';
+import { AniToolBar, CollectionDialog } from '../../components';
+import { useAppDispatch, useAppSelector } from '../../reducer/hooks';
+import { selectCollection } from '../../reducer/counter.slice';
 
 const wrapper = (color) => css({
   minHeight: 1,
@@ -32,30 +35,21 @@ const fabWrapper = () => css({
   }
 });
 
-function time_convert(num) {
-  var hours = Math.floor(num / 60);
-  var minutes = num % 60;
-
-  if (hours === 0) return minutes + 'm';
-
-  return hours + 'h' + minutes + 'm';
-};
-
 const AnimeDetail = (props) => {
   const { loading, media } = props;
+  const [open, setOpen] = useState(false);
   const { back } = useRouter();
 
   if (loading) return <div>loading...</div>
 
   const { coverImage, title, averageScore, description, genres, format, type, duration } = media;
   const rating = averageScore / 20;
-  console.log('first', typeof description)
 
   return (
     <div css={wrapper('#fff')}>
-      <ElevateToolbar>
+      <AniToolBar>
         <ArrowBackIcon onClick={() => back()} css={{ margin: 10 }} />
-      </ElevateToolbar>
+      </AniToolBar>
       <Grid
         container
         css={{
@@ -89,7 +83,7 @@ const AnimeDetail = (props) => {
               <NoiseControlOffIcon fontSize='small' />
               <Typography>{type}</Typography>
               <NoiseControlOffIcon fontSize='small' />
-              <Typography>{time_convert(duration)}</Typography>
+              <Typography>{timeConvert(duration)}</Typography>
             </div>
             <div css={{ gap: 4, display: 'flex', flexWrap: 'wrap' }}>
               {
@@ -102,9 +96,14 @@ const AnimeDetail = (props) => {
           </div>
         </Grid>
       </Grid>
-      <Fab aria-label="like" css={fabWrapper}>
+      <Fab aria-label="like" css={fabWrapper} onClick={() => setOpen(true)}>
         <FavoriteIcon />
       </Fab>
+      <CollectionDialog
+        open={open}
+        setOpen={setOpen}
+        media={media}
+      />
     </div >
   )
 };

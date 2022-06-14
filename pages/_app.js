@@ -13,7 +13,6 @@ import theme from '../styles/theme';
 import createEmotionCache from '../styles/createEmotionCache';
 
 
-
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
