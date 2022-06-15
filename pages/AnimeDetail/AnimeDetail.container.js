@@ -2,6 +2,8 @@ import { gql, useQuery } from "@apollo/client";
 import { get } from "lodash";
 import { useRouter } from "next/router";
 import { compose, withProps } from "recompose";
+import { selectAnimes } from "../../reducer/collection.slice";
+import { useAppSelector } from "../../reducer/hooks";
 import AnimeDetailComponent from "./AnimeDetail.component";
 
 const AnimeDetailContainer = props => <AnimeDetailComponent {...props} />
@@ -47,6 +49,11 @@ const useAnimeDetailQuery = () => {
   }
 };
 
+const useAnimeCollection = () => ({
+  animeCollection: useAppSelector(selectAnimes)
+});
+
 export default compose(
+  withProps(useAnimeCollection),
   withProps(useAnimeDetailQuery)
 )(AnimeDetailContainer);

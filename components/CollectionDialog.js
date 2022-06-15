@@ -20,19 +20,33 @@ import { useTheme } from '@mui/material/styles';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useAppDispatch, useAppSelector } from '../reducer/hooks';
-import { addCollection, selectCollection, addAnime } from '../reducer/collection.slice';
+import {
+  addCollection,
+  selectCollection,
+  addAnime
+} from '../reducer/collection.slice';
 
 const initialState = {
   input: '',
   show: false,
+  errorMessage: '',
   selectedCollection: ''
+};
+
+const handleSelectRadio = (event, state, setState) => {
+  if (event.target.value === state.selectedCollection) {
+    setState({ selectedCollection: '' });
+    return;
+  };
+
+  setState({ selectedCollection: event.target.value });
 };
 
 const CollectionDialog = (props) => {
   const { open, setOpen, media } = props;
   const dispatch = useAppDispatch();
   const [state, setState] = useState(initialState);
-  const { input, show, selectedCollection } = state;
+  const { input, show, selectedCollection, errorMessage } = state;
 
   const handleSetState = (value) => setState({ ...state, ...value })
   const collections = useAppSelector(selectCollection);
@@ -44,6 +58,14 @@ const CollectionDialog = (props) => {
   };
 
   const handleSaveAnime = () => {
+    if (!selectedCollection) {
+      handleSetState({
+        show: true,
+        errorMessage: 'Please select collection'
+      });
+      return;
+    };
+
     const payload = {
       collection: selectedCollection,
       animeId: media.id,
@@ -56,9 +78,12 @@ const CollectionDialog = (props) => {
 
   const useAddCollection = (input) => {
     if (collections.find(data => data === input)) {
-      handleSetState({ show: true });
+      handleSetState({
+        show: true,
+        errorMessage: 'Collection Name Already Exist'
+      });
       return;
-    }
+    };
 
     dispatch(addCollection(input));
     handleSetState({ input: '' })
@@ -91,16 +116,13 @@ const CollectionDialog = (props) => {
           </div>
           {collections.length === 0 && <Typography>Please Add Collection to Save Anime</Typography>}
           {collections.length > 0 &&
-            <RadioGroup
-              value={selectedCollection}
-              onChange={(e) => handleSetState({ selectedCollection: e.target.value })}
-            >
+            <RadioGroup value={selectedCollection}>
               <Typography>Please Choose Collection to Save Anime</Typography>
               {collections.map((data, i) =>
                 <FormControlLabel
                   key={i}
                   value={data}
-                  control={<Radio />}
+                  control={<Radio onClick={(e) => handleSelectRadio(e, state, setState)} />}
                   label={data}
                 />
               )}
@@ -109,8 +131,15 @@ const CollectionDialog = (props) => {
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSaveAnime}>
+          <Button
+            onClick={handleSaveAnime}
+          >
             Save
+          </Button>
+          <Button
+            onClick={handleClose}
+          >
+            cancel
           </Button>
         </DialogActions>
         <Snackbar
@@ -119,10 +148,10 @@ const CollectionDialog = (props) => {
           open={show}
           onClose={() => handleSetState({ show: false })}
         >
-          <Alert severity="error">Collection Name Already Exist</Alert>
+          <Alert severity="error">{errorMessage}</Alert>
         </Snackbar>
       </Dialog>
-    </div>
+    </div >
   );
 };
 
