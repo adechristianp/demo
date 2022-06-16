@@ -10,7 +10,12 @@ import {
 
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import EditIcon from '@mui/icons-material/Edit';
-import { AniToolBar, AddCollection, EditCollectionDialog } from "../../components";
+import {
+  AniToolBar,
+  AddCollection,
+  EditCollectionDialog,
+  RemoveCollectionDialog
+} from "../../components";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -22,6 +27,7 @@ const CollectionList = (props) => {
   const [collection, setCollection] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState({});
   const [open, setOpen] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   useEffect(() => {
     setCollection(collectionList);
@@ -30,6 +36,11 @@ const CollectionList = (props) => {
   const onEdit = id => {
     setOpen(true);
     setSelectedCollection(id);
+  };
+
+  const onDelete = name => {
+    setConfirm(true);
+    setSelectedCollection(name);
   };
 
   return (
@@ -78,7 +89,7 @@ const CollectionList = (props) => {
                       css={{ alignItems: 'flex-start' }}
                     >
                       <Button onClick={() => onEdit(id)} key="one" size="small" startIcon={<EditIcon />}>Edit</Button>
-                      <Button key="two" size="small" startIcon={<DeleteSharpIcon />}>Delete</Button>
+                      <Button onClick={() => onDelete(name)} size="small" startIcon={<DeleteSharpIcon />}>Remove</Button>
                     </ButtonGroup>
                   </CardActions>
                 </Card>
@@ -90,6 +101,12 @@ const CollectionList = (props) => {
       <EditCollectionDialog
         open={open}
         onDismiss={() => setOpen(false)}
+        collection={collection}
+        selectedCollection={selectedCollection}
+      />
+      <RemoveCollectionDialog
+        open={confirm}
+        onDismiss={() => setConfirm(false)}
         collection={collection}
         selectedCollection={selectedCollection}
       />

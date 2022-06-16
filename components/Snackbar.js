@@ -6,7 +6,7 @@ export default function SnackbarComponent(props) {
   return (
     <Snackbar
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      autoHideDuration={2000}
+      autoHideDuration={3000}
       open={show}
       onClose={onDismiss}
     >

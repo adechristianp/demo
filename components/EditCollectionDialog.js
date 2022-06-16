@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useAppDispatch } from '../reducer/hooks';
 import { editCollection } from '../reducer/collection.slice';
 import SnackbarComponent from './Snackbar';
-SnackbarComponent
+
 const snackbarState = {
   show: false,
   type: '',
@@ -32,7 +32,7 @@ export default function EditCollectionDialog(props) {
       return;
     };
 
-    if (collection.find(v => v.name === input)) {
+    if (collection.find(v => v.name.toLowerCase() === input.toLowerCase())) {
       setSnackbar({
         show: true,
         type: 'error',
