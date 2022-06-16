@@ -16,7 +16,6 @@ import StarIcon from '@mui/icons-material/Star';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FolderIcon from '@mui/icons-material/Folder';
 import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import { css } from '@emotion/react';
 
@@ -33,7 +32,7 @@ const wrapper = (color) => css({
 
 
 const AnimeDetail = (props) => {
-  const { loading, media, animeCollection } = props;
+  const { loading, media, animeCollection, collectionList } = props;
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const show = Boolean(anchorEl);
@@ -151,21 +150,24 @@ const AnimeDetail = (props) => {
                 </Link>
                 <Divider />
                 {
-                  collectIn.map((data, i) => (
-                    <Link
-                      key={i}
-                      href={{
-                        pathname: '/AnimeCollection',
-                        query: {
-                          collection: data.collection
-                        }
-                      }}
-                    >
-                      <MenuItem>
-                        {data.collection}
-                      </MenuItem>
-                    </Link>
-                  ))
+                  collectIn.map((data, i) => {
+                    const col = collectionList.find(v => v.id == data.collectionId);
+                    return (
+                      <Link
+                        key={i}
+                        href={{
+                          pathname: '/AnimeCollection',
+                          query: {
+                            id: data.collectionId
+                          }
+                        }}
+                      >
+                        <MenuItem>
+                          {col.name}
+                        </MenuItem>
+                      </Link>
+                    )
+                  })
                 }
               </Menu>
             </Stack>

@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { get } from "lodash";
 import { useRouter } from "next/router";
 import { compose, withProps } from "recompose";
-import { selectAnimes } from "../../reducer/collection.slice";
+import { selectState } from "../../reducer/collection.slice";
 import { useAppSelector } from "../../reducer/hooks";
 import AnimeDetailComponent from "./AnimeDetail.component";
 
@@ -41,7 +41,7 @@ const useAnimeDetailQuery = () => {
       id: isReady ? query.id : null
     }
   });
-  console.log('data', data);
+
   return {
     media: get(data, 'Media', null),
     loading,
@@ -49,11 +49,16 @@ const useAnimeDetailQuery = () => {
   }
 };
 
-const useAnimeCollection = () => ({
-  animeCollection: useAppSelector(selectAnimes)
-});
+const useAppState = (props) => {
+  const { collectionList, animeCollection } = useAppSelector(selectState);
+
+  return {
+    collectionList,
+    animeCollection,
+  }
+};
 
 export default compose(
-  withProps(useAnimeCollection),
+  withProps(useAppState),
   withProps(useAnimeDetailQuery)
 )(AnimeDetailContainer);

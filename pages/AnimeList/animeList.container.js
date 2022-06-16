@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { get } from "lodash";
 import { compose, withProps } from "recompose";
-import AnimeListComponent from "./animeList.component";
+import AnimeListComponent from "./AnimeList.component";
 
 const AnimeListContainer = (props) => <AnimeListComponent {...props} />
 

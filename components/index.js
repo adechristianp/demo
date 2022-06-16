@@ -1,6 +1,7 @@
 import AddCollection from './AddCollection';
 import AniToolBar from './AniToolBar';
 import CollectionDialog from './CollectionDialog';
+import EditCollectionDialog from './EditCollectionDialog';
 import FormDialog from './FormDialog';
 import Pagination from './Pagination';
 import Snackbar from './Snackbar';
@@ -11,5 +12,6 @@ export {
   CollectionDialog,
   Pagination,
   Snackbar,
-  FormDialog
+  FormDialog,
+  EditCollectionDialog
 };

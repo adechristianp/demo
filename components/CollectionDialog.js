@@ -2,7 +2,6 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import {
-  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -10,8 +9,6 @@ import {
   DialogTitle,
   Typography,
   useMediaQuery,
-  TextField,
-  Snackbar,
   RadioGroup,
   Radio,
   FormControlLabel
@@ -21,17 +18,17 @@ import { useTheme } from '@mui/material/styles';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useAppDispatch, useAppSelector } from '../reducer/hooks';
 import {
-  addCollection,
   selectCollection,
-  addAnime
+  addAnime,
 } from '../reducer/collection.slice';
+import AddCollection from './AddCollection';
+import SnackBarComponent from './Snackbar';
 
 const initialState = {
-  input: '',
   show: false,
-  errorMessage: null,
+  type: '',
   selectedCollection: '',
-  successMessage: null
+  message: ''
 };
 
 const handleSelectRadio = (event, state, setState) => {
@@ -45,62 +42,59 @@ const handleSelectRadio = (event, state, setState) => {
 
 const CollectionDialog = (props) => {
   const { open, setOpen, media, collectionInfo } = props;
-  const dispatch = useAppDispatch();
-  const [state, setState] = useState(initialState);
-  const { input, show, selectedCollection, errorMessage, successMessage } = state;
-
-  const handleSetState = (value) => setState({ ...state, ...value })
-  const collections = useAppSelector(selectCollection);
+  const collection = useAppSelector(selectCollection);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const dispatch = useAppDispatch();
+
+  const [state, setState] = useState(initialState);
+  const { show, selectedCollection, message, type } = state;
+  const handleSetState = (value) => setState({ ...state, ...value })
+
   const handleClose = () => {
     setOpen(false);
+    setState(initialState);
   };
 
-  console.log('successMessage', successMessage)
+  const setErrorSnackbar = message => {
+    handleSetState({
+      show: true,
+      type: 'error',
+      message
+    });
+  };
+
+  const setSuccessSnackbar = message => {
+    handleSetState({
+      show: true,
+      type: 'success',
+      message
+    });
+  };
+
   const handleSaveAnime = () => {
     const collected = collectionInfo.find(v => v.collection === selectedCollection);
     if (collected) {
-      handleSetState({
-        show: true,
-        errorMessage: 'Already saved in the selected collection!'
-      });
+      const message = 'Already saved in the selected collection!';
+      setErrorSnackbar(message);
       return;
     }
 
     if (!selectedCollection) {
-      handleSetState({
-        show: true,
-        errorMessage: 'Please select collection!'
-      });
+      setErrorSnackbar('Please select collection!');
       return;
     };
 
     const payload = {
-      collection: selectedCollection,
+      collectionId: selectedCollection,
       animeId: media.id,
-      title: media.title
+      title: media.title,
+      cover: media.coverImage.large
     };
 
     dispatch(addAnime(payload));
-    handleSetState({
-      show: true,
-      successMessage: 'Anime Collected!'
-    });
-    setTimeout(() => setOpen(false), 2000)
-  };
-
-  const useAddCollection = (input) => {
-    if (collections.find(data => data === input)) {
-      handleSetState({
-        show: true,
-        errorMessage: 'Collection Name Already Exist'
-      });
-      return;
-    };
-
-    dispatch(addCollection(input));
-    handleSetState({ input: '' })
+    setSuccessSnackbar('Saved to collection!');
+    setOpen(false);
   };
 
   return (
@@ -115,34 +109,21 @@ const CollectionDialog = (props) => {
           Collection List
         </DialogTitle>
         <DialogContent>
-          <div
-            css={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-            <TextField
-              css={{ width: '100%' }}
-              label="input collection name"
-              variant="filled"
-              value={input}
-              onChange={(e) => handleSetState({ input: e.target.value })}
-            />
-            <Button type="submit" aria-label="search" onClick={() => useAddCollection(input)}>
-              <AddCircleIcon fontSize='large' />
-            </Button>
-          </div>
-          {collections.length === 0 && <Typography>Please Add Collection to Save Anime</Typography>}
-          {collections.length > 0 &&
+          <AddCollection collection={collection} />
+          {collection.length === 0 && <Typography>Please Add Collection to Save Anime</Typography>}
+          {collection.length > 0 &&
             <RadioGroup value={selectedCollection}>
               <Typography>Please Choose Collection to Save Anime</Typography>
-              {collections.map((data, i) =>
+              {collection.map(({ id, name }) =>
                 <FormControlLabel
-                  key={i}
-                  value={data}
+                  key={id}
+                  value={id}
                   control={<Radio onClick={(e) => handleSelectRadio(e, state, setState)} />}
-                  label={data}
+                  label={name}
                 />
               )}
             </RadioGroup>
           }
-
         </DialogContent>
         <DialogActions>
           <Button
@@ -157,20 +138,14 @@ const CollectionDialog = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        autoHideDuration={2000}
-        open={show}
-        onClose={() => handleSetState({ show: false })}
-      >
-        {successMessage
-          ? <Alert severity="success">{successMessage}</Alert>
-          : <Alert severity="error">{errorMessage}</Alert>
-        }
-      </Snackbar>
+      <SnackBarComponent
+        show={show}
+        type={type}
+        message={message}
+        onDismiss={() => handleSetState({ show: false })}
+      />
     </div >
   );
 };
 
 export default CollectionDialog;
-// 

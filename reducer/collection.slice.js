@@ -20,6 +20,9 @@ export const collectionSlice = createSlice({
     addCollection: (state, action) => {
       state.collectionList = [...state.collectionList, action.payload]
     },
+    editCollection: (state, action) => {
+      state.collectionList = action.payload
+    },
     addAnime: (state, action) => {
       state.animeCollection = [...state.animeCollection, action.payload]
     }
@@ -28,7 +31,8 @@ export const collectionSlice = createSlice({
 
 export const {
   addCollection,
-  addAnime
+  addAnime,
+  editCollection
 } = collectionSlice.actions;
 
 export const selectState = (state) => state.collection;
