@@ -25,7 +25,7 @@ const renderToolbar = (props) => (
         Ani-animo
       </Typography>
       <div css={{ display: 'flex', justifyContent: 'space-between', }}>
-        <Link href='/AnimeCollection'>
+        <Link href='/CollectionList'>
           <IconButton>
             <Typography variant="h5" component="div">
               Collection

@@ -37,4 +37,7 @@ export const selectCollection = (state) => state.collection.collectionList;
 
 export const selectAnimes = (state) => state.collection.animeCollection;
 
+export const selectAnimeByCollection = (collection) =>
+  (state) => state.collection.animeCollection.filter(v => v.collection === collection)
+
 export default collectionSlice.reducer;

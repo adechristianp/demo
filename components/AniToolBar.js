@@ -4,6 +4,8 @@ import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
+import ArrowBack from "@mui/icons-material/ArrowBack";
+import { useRouter } from 'next/router';
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -21,15 +23,24 @@ function ElevationScroll(props) {
   });
 }
 
-const ToolBar = (props) => (
-  <ElevationScroll {...props}>
-    <AppBar css={{
-      backgroundColor: 'white',
-      color: 'black',
-    }}>
-      {props.children}
-    </AppBar>
-  </ElevationScroll>
-)
+const ToolBar = (props) => {
+  const { back } = useRouter();
+
+  return (
+    <ElevationScroll {...props}>
+      <AppBar css={{
+        backgroundColor: 'white',
+        color: 'black',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+      }}>
+        {props.hasBackButton
+          && <ArrowBack onClick={() => back()} css={{ margin: 10 }} />}
+        {props.children}
+      </AppBar>
+    </ElevationScroll>
+  )
+};
 
 export default ToolBar;

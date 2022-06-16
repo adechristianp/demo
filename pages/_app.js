@@ -85,7 +85,7 @@ const MyApp = (props) => {
                   </div>
                 ))}
               </div>
-              {!isRetainableRoute && <Component {...pageProps} />}
+              {!isRetainableRoute && <Component {...pageProps} router={router} />}
             </LocalDataProvider>
           </Provider>
         </ApolloProvider >

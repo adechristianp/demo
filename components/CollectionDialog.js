@@ -29,8 +29,9 @@ import {
 const initialState = {
   input: '',
   show: false,
-  errorMessage: '',
-  selectedCollection: ''
+  errorMessage: null,
+  selectedCollection: '',
+  successMessage: null
 };
 
 const handleSelectRadio = (event, state, setState) => {
@@ -43,25 +44,34 @@ const handleSelectRadio = (event, state, setState) => {
 };
 
 const CollectionDialog = (props) => {
-  const { open, setOpen, media } = props;
+  const { open, setOpen, media, collectionInfo } = props;
   const dispatch = useAppDispatch();
   const [state, setState] = useState(initialState);
-  const { input, show, selectedCollection, errorMessage } = state;
+  const { input, show, selectedCollection, errorMessage, successMessage } = state;
 
   const handleSetState = (value) => setState({ ...state, ...value })
   const collections = useAppSelector(selectCollection);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
   const handleClose = () => {
     setOpen(false);
   };
 
+  console.log('successMessage', successMessage)
   const handleSaveAnime = () => {
+    const collected = collectionInfo.find(v => v.collection === selectedCollection);
+    if (collected) {
+      handleSetState({
+        show: true,
+        errorMessage: 'Already saved in the selected collection!'
+      });
+      return;
+    }
+
     if (!selectedCollection) {
       handleSetState({
         show: true,
-        errorMessage: 'Please select collection'
+        errorMessage: 'Please select collection!'
       });
       return;
     };
@@ -73,7 +83,11 @@ const CollectionDialog = (props) => {
     };
 
     dispatch(addAnime(payload));
-    setOpen(false);
+    handleSetState({
+      show: true,
+      successMessage: 'Anime Collected!'
+    });
+    setTimeout(() => setOpen(false), 2000)
   };
 
   const useAddCollection = (input) => {
@@ -139,20 +153,24 @@ const CollectionDialog = (props) => {
           <Button
             onClick={handleClose}
           >
-            cancel
+            close
           </Button>
         </DialogActions>
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          autoHideDuration={3000}
-          open={show}
-          onClose={() => handleSetState({ show: false })}
-        >
-          <Alert severity="error">{errorMessage}</Alert>
-        </Snackbar>
       </Dialog>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        autoHideDuration={2000}
+        open={show}
+        onClose={() => handleSetState({ show: false })}
+      >
+        {successMessage
+          ? <Alert severity="success">{successMessage}</Alert>
+          : <Alert severity="error">{errorMessage}</Alert>
+        }
+      </Snackbar>
     </div >
   );
 };
 
 export default CollectionDialog;
+// 
