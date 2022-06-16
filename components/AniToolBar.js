@@ -6,6 +6,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import { useRouter } from 'next/router';
+import { Typography } from '@mui/material';
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -24,6 +25,7 @@ function ElevationScroll(props) {
 }
 
 const ToolBar = (props) => {
+  const { hasBackButton, title } = props;
   const { back } = useRouter();
 
   return (
@@ -33,10 +35,12 @@ const ToolBar = (props) => {
         color: 'black',
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        minHeight: 75,
+        padding: 10
       }}>
-        {props.hasBackButton
-          && <ArrowBack onClick={() => back()} css={{ margin: 10 }} />}
+        {hasBackButton && <ArrowBack onClick={() => back()} />}
+        {title && <Typography css={{ marginLeft: 20 }} variant="h4">{title}</Typography>}
         {props.children}
       </AppBar>
     </ElevationScroll>

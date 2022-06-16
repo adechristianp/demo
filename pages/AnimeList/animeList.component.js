@@ -19,7 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { AniToolBar, Pagination } from '../../components'
 
 const renderToolbar = (props) => (
-  <AniToolBar {...props}>
+  <AniToolBar>
     <Toolbar css={{ display: 'flex', justifyContent: 'space-between' }}>
       <Typography variant="h5" component="div">
         Ani-animo
@@ -50,7 +50,7 @@ const renderAnimeCard = (data) => {
   const rating = averageScore / 20;
 
   return (
-    <Card css={{ maxWidth: 400 }}>
+    <Card css={{ maxWidth: 400, borderRadius: 10 }}>
       <CardActionArea>
         <Link
           href={{
@@ -61,7 +61,7 @@ const renderAnimeCard = (data) => {
           }}>
           <CardContent css={{ alignContent: 'center', padding: 0 }}>
             <Image
-              alt='pokemon'
+              alt='anime'
               src={coverImage.large}
               layout='intrinsic'
               width={400}

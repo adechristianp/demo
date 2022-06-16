@@ -31,19 +31,6 @@ const wrapper = (color) => css({
   paddingBottom: 30
 });
 
-const fabWrapper = (isCollected) => css({
-  margin: 0,
-  top: 'auto',
-  right: 20,
-  bottom: 20,
-  left: 'auto',
-  position: 'fixed',
-  color: isCollected ? 'red' : 'white',
-  '@media(min-width: 1200px)': {
-    right: 100,
-    bottom: 100,
-  }
-});
 
 const AnimeDetail = (props) => {
   const { loading, media, animeCollection } = props;
@@ -68,7 +55,7 @@ const AnimeDetail = (props) => {
 
   return (
     <div css={wrapper('#fff')}>
-      <AniToolBar hasBackButton />
+      <AniToolBar hasBackButton title="Anime Detail" />
       <Grid
         container
         css={{
@@ -165,7 +152,15 @@ const AnimeDetail = (props) => {
                 <Divider />
                 {
                   collectIn.map((data, i) => (
-                    <Link key={i} href='/'>
+                    <Link
+                      key={i}
+                      href={{
+                        pathname: '/AnimeCollection',
+                        query: {
+                          collection: data.collection
+                        }
+                      }}
+                    >
                       <MenuItem>
                         {data.collection}
                       </MenuItem>
