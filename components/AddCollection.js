@@ -65,7 +65,8 @@ export default function AddCollection({ collection }) {
         css={{ width: '100%' }}
         label="input collection name"
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => setInput(e.target.value.replace(/[^a-zA-Z0-9 ]/g, ''))}
+        inputProps={{ maxLength: 30 }}
       />
       <Button
         variant="contained"

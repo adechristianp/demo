@@ -51,14 +51,14 @@ export default function AnimeCollection(props) {
     <div css={{ marginTop: 75, padding: 16 }}>
       <AniToolBar hasBackButton title={`Anime Collection`} />
       <div css={{ position: 'fixed', zIndex: 10, backgroundColor: '#fff9', borderRadius: 5, display: 'flex' }}>
-        <Typography css={{ marginLeft: 20 }} variant="h2">
+        <Typography css={{ marginLeft: 20, textDecoration: 'underline' }} variant="h2">
           {collection.name}
         </Typography>
         <IconButton onClick={() => setOpen(true)}>
           <EditIcon />
         </IconButton>
       </div>
-      <div css={{ marginTop: 30 }}>
+      <div css={{ marginTop: 50 }}>
         <AnimeGrid
           withRemove
           animeList={animes}
@@ -69,7 +69,7 @@ export default function AnimeCollection(props) {
         open={open}
         onDismiss={() => setOpen(false)}
         collection={collectionList}
-        selectedCollection={collection.id}
+        selectedCollection={collection}
       />
       <RemoveConfirmDialog
         open={confirm}
@@ -78,6 +78,6 @@ export default function AnimeCollection(props) {
         handleConfirm={onConfirmRemove}
       />
       {renderSnackbar(snackbar, setSnackbar)}
-    </div>
+    </div >
   )
 }

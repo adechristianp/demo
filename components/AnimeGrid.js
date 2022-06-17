@@ -7,12 +7,30 @@ import {
   Typography,
   Rating,
   IconButton,
-  Checkbox
+  Checkbox,
+  Skeleton
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import StarIcon from '@mui/icons-material/Star';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
+
+const renderSkeleton = () => {
+  return (
+    [...Array(10).keys()].map((v, i) => (
+      <Grid item key={i} xs={6} md={4} lg={2.4}>
+        <Skeleton
+          variant="rectangular"
+          height="25vh"
+          css={{ borderRadius: 10 }}
+          animation="wave"
+        />
+        <Skeleton animation="wave" />
+        <Skeleton animation="wave" />
+      </Grid>
+    ))
+  )
+};
 
 const renderCover = (data, props) => {
   const { id, coverImage } = data;
@@ -40,6 +58,7 @@ const renderCover = (data, props) => {
           layout='intrinsic'
           width={400}
           height={400}
+          objectFit='cover'
         />
       </Link>
       {withRemove &&
@@ -108,15 +127,17 @@ const renderAnimeCard = (data, props) => {
 };
 
 const AnimeGrid = (props) => {
-  const { animeList } = props;
+  const { animeList, loading } = props;
 
   return (
     <Grid container spacing={3} css={{ padding: 20 }}>
-      {animeList.map((data, i) => (
-        <Grid item key={i} xs={6} md={4} lg={3} offset={2}>
-          {renderAnimeCard(data, props)}
-        </Grid>
-      ))}
+      {loading
+        ? renderSkeleton()
+        : animeList.map((data, i) => (
+          <Grid item key={i} xs={6} md={4} lg={2.4}>
+            {renderAnimeCard(data, props)}
+          </Grid>
+        ))}
     </Grid>
   )
 };

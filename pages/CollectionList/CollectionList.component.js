@@ -9,6 +9,7 @@ import {
   Card,
   CardActionArea,
   CardActions,
+  Grid,
 } from '@mui/material';
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,7 +22,7 @@ import {
   Snackbar,
   config
 } from "../../components";
-import { editCollection } from '../../reducer/collection.slice';
+import { editCollection, editAnimeCollection } from '../../reducer/collection.slice';
 
 const defaultImage = 'https://img.icons8.com/dusk/64/undefined/no-image.png';
 const { snackbarInitialState } = config;
@@ -47,20 +48,22 @@ const CollectionList = (props) => {
     setCollection(collectionList);
   }, [collectionList])
 
-  const onEdit = id => {
+  const onEdit = (data) => {
     setOpen(true);
-    setSelectedCollection(id);
+    setSelectedCollection(data);
   };
 
-  const onDelete = name => {
+  const onDelete = data => {
     setConfirm(true);
-    setSelectedCollection(name);
+    setSelectedCollection(data);
   };
 
   const handleRemoveCollection = () => {
-    const array = collection.filter(v => v.name !== selectedCollection);
+    const array = collection.filter(v => v.name !== selectedCollection.name);
+    const animeArray = animeCollection.filter(v => v.collectionId !== selectedCollection.id);
 
     dispatch(editCollection(array));
+    if (animeArray.length > 0) dispatch(editAnimeCollection(animeArray));
 
     setSnackbar({
       show: true,
@@ -75,52 +78,58 @@ const CollectionList = (props) => {
       <AniToolBar hasBackButton title="Collection List" />
       <div css={{ marginTop: 75, display: 'flex', flexDirection: 'column', gap: 15 }}>
         <AddCollection collection={collection} />
-        {
-          collection.map(({ id, name }, i) => {
-            const firstAnime = animeCollection.find((v) => v.collectionId == id)
-            const cover = firstAnime ? firstAnime.coverImage.large : defaultImage;
+        <Grid container>
+          {
+            collection.slice(0).reverse().map(({ id, name }, i) => {
+              const firstAnime = animeCollection.find((v) => v.collectionId == id)
+              const cover = firstAnime ? firstAnime.coverImage.large : defaultImage;
 
-            return (
-              <div key={id} css={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', minHeight: 100 }}>
-                <Typography variant='h3' css={{ color: 'grey' }}>#{i + 1}</Typography>
-                <Card elevation={6} css={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                  <CardActionArea>
-                    <Link
-                      href={{
-                        pathname: '/AnimeCollection',
-                        query: {
-                          id
-                        }
-                      }}>
-                      <div css={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                        <Image
-                          alt='anime'
-                          src={cover}
-                          layout='intrinsic'
-                          width={90}
-                          height={90}
-                        />
-                        <Typography variant='h6'>
-                          {name}
-                        </Typography>
-                      </div>
-                    </Link>
-                  </CardActionArea>
-                  <CardActions css={{ display: 'flex', flexDirection: 'column' }}>
-                    <ButtonGroup
-                      orientation="vertical"
-                      variant="text"
-                      css={{ alignItems: 'flex-start' }}
-                    >
-                      <Button onClick={() => onEdit(id)} key="one" size="small" startIcon={<EditIcon />}>Edit</Button>
-                      <Button onClick={() => onDelete(name)} size="small" startIcon={<DeleteSharpIcon />}>Remove</Button>
-                    </ButtonGroup>
-                  </CardActions>
-                </Card>
-              </div>
-            )
-          })
-        }
+              return (
+                <Grid item key={id} xs={12} md={6} lg={4}>
+                  <div css={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', minHeight: 100, margin: 10 }}>
+                    {/* <Typography variant='h3' css={{ color: 'grey' }}>#{i + 1}</Typography> */}
+                    <Card elevation={6} css={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                      <CardActionArea>
+                        <Link
+                          href={{
+                            pathname: '/AnimeCollection',
+                            query: {
+                              id
+                            }
+                          }}>
+                          <div css={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                            <div css={{ minWidth: 90, maxHeight: 90 }}>
+                              <Image
+                                alt='anime'
+                                src={cover}
+                                layout='intrinsic'
+                                width={90}
+                                height={90}
+                                objectFit='cover'
+                              />
+                            </div>
+                            <Typography variant='h5'>
+                              {name}
+                            </Typography>
+                          </div>
+                        </Link>
+                      </CardActionArea>
+                      <CardActions css={{ display: 'flex', flexDirection: 'column' }}>
+                        <ButtonGroup
+                          orientation="vertical"
+                          variant="none"
+                        >
+                          <Button onClick={() => onEdit(id, name)} key="one" size="small" startIcon={<EditIcon />} />
+                          <Button onClick={() => onDelete({ id, name })} size="small" startIcon={<DeleteSharpIcon />} />
+                        </ButtonGroup>
+                      </CardActions>
+                    </Card>
+                  </div>
+                </Grid>
+              )
+            })
+          }
+        </Grid>
       </div>
       <EditCollectionDialog
         open={open}
@@ -131,7 +140,7 @@ const CollectionList = (props) => {
       <RemoveConfirmDialog
         open={confirm}
         onDismiss={() => setConfirm(false)}
-        item={selectedCollection}
+        item={selectedCollection.name}
         handleConfirm={handleRemoveCollection}
       />
       {renderSnackbar(snackbar, setSnackbar)}

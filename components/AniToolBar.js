@@ -31,16 +31,19 @@ const ToolBar = (props) => {
   return (
     <ElevationScroll {...props}>
       <AppBar css={{
-        backgroundColor: 'white',
+        background: 'linear-gradient(to right top, #00F556, #60B6F1)',
         color: 'black',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         minHeight: 75,
-        padding: 10
+        padding: 10,
+        flex: 1,
+        borderBottomRightRadius: 5,
+        borderBottomLeftRadius: 5
       }}>
-        {hasBackButton && <ArrowBack onClick={() => back()} />}
-        {title && <Typography css={{ marginLeft: 20 }} variant="h4">{title}</Typography>}
+        {hasBackButton && <ArrowBack css={{ color: 'white' }} onClick={() => back()} />}
+        {title && <Typography css={{ marginLeft: 20, color: 'white' }} variant="h4">{title}</Typography>}
         {props.children}
       </AppBar>
     </ElevationScroll>

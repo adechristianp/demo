@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import {
   Typography,
-  InputBase,
   IconButton
 } from '@mui/material';
 import Link from 'next/link';
@@ -46,10 +45,12 @@ const AnimeList = (props) => {
   const [withChecked, setWithChecked] = useState(false);
   const [collectionInfo, setCollectionInfo] = useState([]);
   const [snackbar, setSnackbar] = useState(snackbarInitialState);
+  const [isLoading, setIsLoading] = useState(false);
 
   useAnimesEffect(props, setAnimes);
 
   const handlePageChange = async (e, value) => {
+    setIsLoading(true);
     setAnimes([]);
     const { data: { Page: { media } } } = await fetchMore({
       variables: { page: value, perPage: 10 }
@@ -57,6 +58,7 @@ const AnimeList = (props) => {
 
     setPage(value);
     setAnimes(media);
+    setIsLoading(false);
   };
 
   const handleCheck = (value, data) => {
@@ -94,13 +96,9 @@ const AnimeList = (props) => {
     setOpen(true);
   };
 
-  if (loading) return <div>loading...</div>
-
-  if (animes.length === 0) return <div>No Data</div>
-
   return (
     <div css={{ marginTop: 125 }}>
-      <AniToolBar title='Ani-Animo' />
+      <AniToolBar title="Ani-Animo" />
       <div css={{ position: 'fixed', zIndex: 10, flex: 1, backgroundColor: 'white', borderRadius: 5, paddingLeft: 10, paddingRight: 5 }}>
         <Link href='/CollectionList'>
           <IconButton>
@@ -126,6 +124,7 @@ const AnimeList = (props) => {
         }
       </div>
       <AnimeGrid
+        loading={isLoading || loading}
         animeList={animes}
         withChecked={withChecked}
         handleCheck={handleCheck}

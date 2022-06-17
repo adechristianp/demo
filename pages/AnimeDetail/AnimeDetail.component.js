@@ -19,15 +19,13 @@ import NoiseControlOffIcon from '@mui/icons-material/NoiseControlOff';
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import { css } from '@emotion/react';
 
-import { invertColor, timeConvert } from '../../utils';
-import { AniToolBar, AddToCollectionDialog } from '../../components';
+import { timeConvert } from '../../utils';
+import { AniToolBar, AddToCollectionDialog, AnimeDetailSkeleton } from '../../components';
 import Link from 'next/link';
 
-const wrapper = (color) => css({
-  minHeight: 1,
-  backgroundColor: `${color}60`,
-  color: color ? invertColor(color, true) : 'black',
-  paddingBottom: 30
+const wrapper = css({
+  paddingBottom: 30,
+  marginTop: 90
 });
 
 
@@ -45,7 +43,7 @@ const AnimeDetail = (props) => {
     setAnchorEl(null);
   };
 
-  if (loading) return <div>loading...</div>
+  if (loading) return <AnimeDetailSkeleton />
 
   const { id, coverImage, title, averageScore, description, genres, format, type, duration } = media;
   const rating = averageScore / 20;
@@ -53,7 +51,7 @@ const AnimeDetail = (props) => {
   const isCollected = collectIn.length > 0;
 
   return (
-    <div css={wrapper('#fff')}>
+    <div css={wrapper}>
       <AniToolBar hasBackButton title="Anime Detail" />
       <Grid
         container

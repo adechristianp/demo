@@ -42,8 +42,9 @@ export default function EditCollectionDialog(props) {
     };
 
     const array = [...collection];
-    const index = collection.findIndex(v => v.id === selectedCollection);
-    array.splice(index, 1, { id: selectedCollection, name: input })
+    const index = collection.findIndex(v => v.id === selectedCollection.id);
+
+    array.splice(index, 1, { id: selectedCollection.id, name: input })
 
     dispatch(editCollection(array));
 
@@ -72,7 +73,7 @@ export default function EditCollectionDialog(props) {
             label="collection name"
             fullWidth
             variant="standard"
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value.replace(/[^a-zA-Z0-9]/g, ''))}
           />
         </DialogContent>
         <DialogActions>

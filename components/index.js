@@ -1,4 +1,5 @@
 import AddCollection from './AddCollection';
+import AnimeDetailSkeleton from './AnimeDetailSkeleton';
 import AnimeGrid from './AnimeGrid';
 import AniToolBar from './AniToolBar';
 import AddToCollectionDialog from './AddToCollectionDialog';
@@ -11,6 +12,7 @@ import config from './component.config';
 
 export {
   AddCollection,
+  AnimeDetailSkeleton,
   AnimeGrid,
   AniToolBar,
   AddToCollectionDialog,
