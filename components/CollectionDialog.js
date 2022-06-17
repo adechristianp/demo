@@ -87,9 +87,10 @@ const CollectionDialog = (props) => {
 
     const payload = {
       collectionId: selectedCollection,
-      animeId: media.id,
+      id: media.id,
       title: media.title,
-      cover: media.coverImage.large
+      coverImage: media.coverImage,
+      averageScore: media.averageScore
     };
 
     dispatch(addAnime(payload));

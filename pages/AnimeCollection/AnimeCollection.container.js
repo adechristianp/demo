@@ -1,5 +1,5 @@
 import { compose, withProps } from "recompose";
-import { selectState, selectAnimeByCollection } from "../../reducer/collection.slice";
+import { selectState, selectAnimeById } from "../../reducer/collection.slice";
 import { useAppDispatch, useAppSelector } from "../../reducer/hooks";
 import AnimeCollection from "./AnimeCollection.component";
 
@@ -8,12 +8,13 @@ const AnimeCollectionContainer = props => <AnimeCollection {...props} />
 const useAppState = (props) => {
   const { router: { query } } = props
   const { collectionList, animeCollection } = useAppSelector(selectState);
-  const animes = useAppSelector(selectAnimeByCollection(query.collection))
+  const animes = useAppSelector(selectAnimeById(query.id))
   const dispatch = useAppDispatch();
 
   return {
+    animes,
     collectionList,
-    animeCollection,
+    allAnimeCollection: animeCollection,
     dispatch
   }
 };

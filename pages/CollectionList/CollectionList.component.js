@@ -50,13 +50,13 @@ const CollectionList = (props) => {
         <AddCollection collection={collection} />
         {
           collection.map(({ id, name }, i) => {
-            const firstAnime = animeCollection.find((v) => v.collection === name)
-            const cover = firstAnime ? firstAnime.cover : defaultImage;
+            const firstAnime = animeCollection.find((v) => v.collectionId == id)
+            const cover = firstAnime ? firstAnime.coverImage.large : defaultImage;
 
             return (
               <div key={id} css={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', minHeight: 100 }}>
                 <Typography variant='h3' css={{ color: 'grey' }}>#{i + 1}</Typography>
-                <Card elevation={6} css={{ padding: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                <Card elevation={6} css={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                   <CardActionArea>
                     <Link
                       href={{
@@ -66,16 +66,13 @@ const CollectionList = (props) => {
                         }
                       }}>
                       <div css={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                        <div css={{ minWidth: 60 }}>
-                          <Image
-                            alt='anime'
-                            src={cover}
-                            layout='intrinsic'
-                            width={60}
-                            height={75}
-                            objectFit='contain'
-                          />
-                        </div>
+                        <Image
+                          alt='anime'
+                          src={cover}
+                          layout='intrinsic'
+                          width={90}
+                          height={90}
+                        />
                         <Typography variant='h6'>
                           {name}
                         </Typography>

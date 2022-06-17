@@ -49,7 +49,7 @@ const AnimeDetail = (props) => {
 
   const { id, coverImage, title, averageScore, description, genres, format, type, duration } = media;
   const rating = averageScore / 20;
-  const collectIn = animeCollection.filter(data => data.animeId === id);
+  const collectIn = animeCollection.filter(data => data.id === id);
   const isCollected = collectIn.length > 0;
 
   return (

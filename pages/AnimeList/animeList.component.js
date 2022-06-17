@@ -1,12 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Grid,
   Toolbar,
   Typography,
-  Rating,
   InputBase,
   IconButton
 } from '@mui/material';
@@ -16,7 +11,7 @@ import { useEffect, useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { AniToolBar, Pagination } from '../../components'
+import { AnimeGrid, AniToolBar, Pagination } from '../../components'
 
 const renderToolbar = (props) => (
   <AniToolBar>
@@ -44,46 +39,6 @@ const renderToolbar = (props) => (
     </Toolbar>
   </AniToolBar>
 )
-
-const renderAnimeCard = (data) => {
-  const { id, title, coverImage, averageScore } = data;
-  const rating = averageScore / 20;
-
-  return (
-    <Card css={{ maxWidth: 400, borderRadius: 10 }}>
-      <CardActionArea>
-        <Link
-          href={{
-            pathname: '/AnimeDetail',
-            query: {
-              id: id
-            }
-          }}>
-          <CardContent css={{ alignContent: 'center', padding: 0 }}>
-            <Image
-              alt='anime'
-              src={coverImage.large}
-              layout='intrinsic'
-              width={400}
-              height={400}
-            />
-            <div css={{ minHeight: 50, padding: 10 }}>
-              <Typography gutterBottom variant="h5" component="div" noWrap>
-                {title.romaji || 'No Title'}
-              </Typography>
-              <Rating
-                value={rating}
-                readOnly
-                precision={0.5}
-                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />}
-              />
-            </div>
-          </CardContent>
-        </Link>
-      </CardActionArea>
-    </Card>
-  )
-};
 
 const useAnimesEffect = ({ pageList }, setAnimes) => {
   useEffect(() => {
@@ -113,21 +68,15 @@ const AnimeList = (props) => {
   if (animes.length === 0) return <div>No Data</div>
 
   return (
-    <div>
+    <div css={{ marginTop: 75 }}>
       {renderToolbar(props)}
-      <Grid container spacing={3} css={{ padding: 20, marginTop: 30 }}>
-        {animes.map((data, i) => (
-          <Grid item key={i} xs={6} md={4} lg={3} offset={2}>
-            {renderAnimeCard(data)}
-          </Grid>
-        ))}
-      </Grid>
+      <AnimeGrid animeList={animes} />
       <Pagination
         count={pageInfo.lastPage}
         page={page}
         handlePageChange={handlePageChange}
       />
-    </div >
+    </div>
   )
 };
 
