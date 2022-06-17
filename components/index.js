@@ -6,7 +6,8 @@ import EditCollectionDialog from './EditCollectionDialog';
 import FormDialog from './FormDialog';
 import Pagination from './Pagination';
 import Snackbar from './Snackbar';
-import RemoveCollectionDialog from './RemoveCollectionDialog';
+import RemoveConfirmDialog from './RemoveConfirmDialog';
+import config from './component.config';
 
 export {
   AddCollection,
@@ -17,5 +18,6 @@ export {
   Snackbar,
   FormDialog,
   EditCollectionDialog,
-  RemoveCollectionDialog
+  RemoveConfirmDialog,
+  config
 };

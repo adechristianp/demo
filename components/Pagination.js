@@ -6,6 +6,8 @@ const paginationWrapper = css({
   display: 'flex',
   width: '100%',
   justifyContent: 'center',
+  marginBottom: 30,
+  marginTop: 30
 });
 
 const CustomPagination = (props) => {
@@ -13,7 +15,7 @@ const CustomPagination = (props) => {
 
   return (
     <div css={paginationWrapper}>
-      <Stack spacing={4}>
+      <Stack spacing={6}>
         <Pagination count={count} page={page} onChange={handlePageChange} />
       </Stack>
     </div>

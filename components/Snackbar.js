@@ -1,6 +1,6 @@
-import { Snackbar, Alert } from "@mui/material"
+import { Snackbar, Alert } from "@mui/material";
 
-export default function SnackbarComponent(props) {
+const SnackbarComponent = (props) => {
   const { type, message, show, onDismiss } = props;
 
   return (
@@ -14,3 +14,12 @@ export default function SnackbarComponent(props) {
     </Snackbar >
   )
 };
+
+SnackbarComponent.defaultProps = {
+  type: 'success',
+  message: '',
+  show: false,
+  onDismiss: () => { }
+};
+
+export default SnackbarComponent;

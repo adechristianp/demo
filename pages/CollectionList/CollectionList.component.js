@@ -1,4 +1,7 @@
 /** @jsxImportSource @emotion/react */
+import Link from 'next/link';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import {
   Typography,
   Button,
@@ -7,25 +10,36 @@ import {
   CardActionArea,
   CardActions,
 } from '@mui/material';
-
 import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 import EditIcon from '@mui/icons-material/Edit';
+
 import {
   AniToolBar,
   AddCollection,
   EditCollectionDialog,
-  RemoveCollectionDialog
+  RemoveConfirmDialog,
+  Snackbar,
+  config
 } from "../../components";
-import Link from 'next/link';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { editCollection } from '../../reducer/collection.slice';
 
 const defaultImage = 'https://img.icons8.com/dusk/64/undefined/no-image.png';
+const { snackbarInitialState } = config;
+
+const renderSnackbar = (snackbar, setSnackbar) => (
+  <Snackbar
+    show={snackbar.show}
+    type={snackbar.type}
+    message={snackbar.message}
+    onDismiss={() => setSnackbar(snackbarInitialState)}
+  />
+);
 
 const CollectionList = (props) => {
-  const { collectionList, animeCollection } = props;
+  const { collectionList, animeCollection, dispatch } = props;
   const [collection, setCollection] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState({});
+  const [snackbar, setSnackbar] = useState(snackbarInitialState);
   const [open, setOpen] = useState(false);
   const [confirm, setConfirm] = useState(false);
 
@@ -41,6 +55,19 @@ const CollectionList = (props) => {
   const onDelete = name => {
     setConfirm(true);
     setSelectedCollection(name);
+  };
+
+  const handleRemoveCollection = () => {
+    const array = collection.filter(v => v.name !== selectedCollection);
+
+    dispatch(editCollection(array));
+
+    setSnackbar({
+      show: true,
+      type: 'success',
+      message: 'Collection Removed!'
+    });
+    setConfirm(false);
   };
 
   return (
@@ -101,13 +128,14 @@ const CollectionList = (props) => {
         collection={collection}
         selectedCollection={selectedCollection}
       />
-      <RemoveCollectionDialog
+      <RemoveConfirmDialog
         open={confirm}
         onDismiss={() => setConfirm(false)}
-        collection={collection}
-        selectedCollection={selectedCollection}
+        item={selectedCollection}
+        handleConfirm={handleRemoveCollection}
       />
-    </div >
+      {renderSnackbar(snackbar, setSnackbar)}
+    </div>
   )
 };
 
