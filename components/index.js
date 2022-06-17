@@ -1,7 +1,7 @@
 import AddCollection from './AddCollection';
 import AnimeGrid from './AnimeGrid';
 import AniToolBar from './AniToolBar';
-import CollectionDialog from './CollectionDialog';
+import AddToCollectionDialog from './AddToCollectionDialog';
 import EditCollectionDialog from './EditCollectionDialog';
 import FormDialog from './FormDialog';
 import Pagination from './Pagination';
@@ -13,7 +13,7 @@ export {
   AddCollection,
   AnimeGrid,
   AniToolBar,
-  CollectionDialog,
+  AddToCollectionDialog,
   Pagination,
   Snackbar,
   FormDialog,

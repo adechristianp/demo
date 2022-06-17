@@ -24,7 +24,7 @@ export const collectionSlice = createSlice({
       state.collectionList = action.payload
     },
     addAnime: (state, action) => {
-      state.animeCollection = [...state.animeCollection, action.payload]
+      state.animeCollection = [...state.animeCollection, ...action.payload]
     },
     editAnimeCollection: (state, action) => {
       state.animeCollection = action.payload
@@ -46,6 +46,6 @@ export const selectCollection = (state) => state.collection.collectionList;
 export const selectAnimes = (state) => state.collection.animeCollection;
 
 export const selectAnimeById = (id) =>
-  (state) => state.collection.animeCollection.filter(v => v.collectionId === id)
+  (state) => state.collection.animeCollection.filter(v => v.collectionId.toString() === id.toString())
 
 export default collectionSlice.reducer;

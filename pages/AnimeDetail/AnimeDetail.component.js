@@ -20,7 +20,7 @@ import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import { css } from '@emotion/react';
 
 import { invertColor, timeConvert } from '../../utils';
-import { AniToolBar, CollectionDialog } from '../../components';
+import { AniToolBar, AddToCollectionDialog } from '../../components';
 import Link from 'next/link';
 
 const wrapper = (color) => css({
@@ -177,7 +177,7 @@ const AnimeDetail = (props) => {
           </div>
         </Grid>
       </Grid>
-      <CollectionDialog
+      <AddToCollectionDialog
         open={open}
         setOpen={setOpen}
         media={media}

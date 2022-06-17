@@ -9,13 +9,12 @@ import {
   DialogTitle,
   Typography,
   useMediaQuery,
-  RadioGroup,
-  Radio,
+  FormGroup,
+  Checkbox,
   FormControlLabel
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useAppDispatch, useAppSelector } from '../reducer/hooks';
 import {
   selectCollection,
@@ -23,41 +22,43 @@ import {
 } from '../reducer/collection.slice';
 import AddCollection from './AddCollection';
 import SnackBarComponent from './Snackbar';
+import config from './component.config';
 
-const initialState = {
-  show: false,
-  type: '',
-  selectedCollection: '',
-  message: ''
-};
+const { snackbarInitialState } = config;
 
-const handleSelectRadio = (event, state, setState) => {
-  if (event.target.value === state.selectedCollection) {
-    setState({ selectedCollection: '' });
-    return;
-  };
+const renderSnackbar = (snackbar, setSnackbar) => (
+  <SnackBarComponent
+    show={snackbar.show}
+    type={snackbar.type}
+    message={snackbar.message}
+    onDismiss={() => setSnackbar(snackbarInitialState)}
+  />
+);
 
-  setState({ selectedCollection: event.target.value });
-};
-
-const CollectionDialog = (props) => {
+const AddToCollectionDialog = (props) => {
   const { open, setOpen, media, collectionInfo } = props;
   const collection = useAppSelector(selectCollection);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const dispatch = useAppDispatch();
+  const [selectedCollection, setSelectedCollection] = useState({});
+  const [snackbar, setSnackbar] = useState(snackbarInitialState);
 
-  const [state, setState] = useState(initialState);
-  const { show, selectedCollection, message, type } = state;
-  const handleSetState = (value) => setState({ ...state, ...value })
+  const handleCheck = (event) => {
+    setSelectedCollection({
+      ...selectedCollection,
+      [event.target.value]: event.target.checked
+    });
+  };
 
   const handleClose = () => {
     setOpen(false);
     setState(initialState);
+    setSelectedCollection({});
   };
 
   const setErrorSnackbar = message => {
-    handleSetState({
+    setSnackbar({
       show: true,
       type: 'error',
       message
@@ -65,7 +66,7 @@ const CollectionDialog = (props) => {
   };
 
   const setSuccessSnackbar = message => {
-    handleSetState({
+    setSnackbar({
       show: true,
       type: 'success',
       message
@@ -73,28 +74,29 @@ const CollectionDialog = (props) => {
   };
 
   const handleSaveAnime = () => {
-    const collected = collectionInfo.find(v => v.collection === selectedCollection);
-    if (collected) {
-      const message = 'Already saved in the selected collection!';
-      setErrorSnackbar(message);
-      return;
-    }
+    let payload = [];
+    const anyChecked = Object.entries(selectedCollection).find(item => item[1] === true);
 
-    if (!selectedCollection) {
+    if (!anyChecked) {
       setErrorSnackbar('Please select collection!');
       return;
     };
 
-    const payload = {
-      collectionId: selectedCollection,
-      id: media.id,
-      title: media.title,
-      coverImage: media.coverImage,
-      averageScore: media.averageScore
-    };
+    Object.entries(selectedCollection).map(item => {
+      if (item[1]) {
+        payload.push({
+          collectionId: parseInt(item[0]),
+          id: media.id,
+          title: media.title,
+          coverImage: media.coverImage,
+          averageScore: media.averageScore
+        })
+      }
+    });
 
     dispatch(addAnime(payload));
     setSuccessSnackbar('Saved to collection!');
+    setSelectedCollection({});
     setOpen(false);
   };
 
@@ -111,19 +113,25 @@ const CollectionDialog = (props) => {
         </DialogTitle>
         <DialogContent>
           <AddCollection collection={collection} />
-          {collection.length === 0 && <Typography>Please Add Collection to Save Anime</Typography>}
+          {collection.length === 0 && <Typography css={{ marginTop: 40 }}>Please Add Collection to Save Anime</Typography>}
           {collection.length > 0 &&
-            <RadioGroup value={selectedCollection}>
+            <FormGroup>
               <Typography>Please Choose Collection to Save Anime</Typography>
-              {collection.map(({ id, name }) =>
-                <FormControlLabel
+              {collection.map(({ id, name }) => {
+                const collected = collectionInfo.find(v => v.collectionId === id);
+
+                return (<FormControlLabel
                   key={id}
                   value={id}
-                  control={<Radio onClick={(e) => handleSelectRadio(e, state, setState)} />}
+                  control={
+                    <Checkbox onChange={handleCheck} defaultChecked={false} />
+                  }
                   label={name}
-                />
+                  disabled={collected}
+                />)
+              }
               )}
-            </RadioGroup>
+            </FormGroup>
           }
         </DialogContent>
         <DialogActions>
@@ -139,14 +147,9 @@ const CollectionDialog = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <SnackBarComponent
-        show={show}
-        type={type}
-        message={message}
-        onDismiss={() => handleSetState({ show: false })}
-      />
+      {renderSnackbar(snackbar, setSnackbar)}
     </div >
   );
 };
 
-export default CollectionDialog;
+export default AddToCollectionDialog;
