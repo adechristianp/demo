@@ -1,6 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 import { get } from "lodash";
 import { compose, withProps } from "recompose";
+
+import { selectState } from "../../reducer/collection.slice";
+import { useAppSelector } from "../../reducer/hooks";
+
 import AnimeListComponent from "./AnimeList.component";
 
 const AnimeListContainer = (props) => <AnimeListComponent {...props} />
@@ -35,7 +39,7 @@ const useAnimeListQuery = () => {
   const { data, loading, error, fetchMore } = useQuery(ANIMELIST_Q, {
     variables: {
       page: 1,
-      perPage: 12
+      perPage: 10
     },
   });
 
@@ -49,8 +53,17 @@ const useAnimeListQuery = () => {
     pageInfo,
     fetchMore
   };
-}
+};
+
+const useAppState = () => {
+  const { animeCollection } = useAppSelector(selectState);
+
+  return {
+    animeCollection
+  }
+};
 
 export default compose(
-  withProps(useAnimeListQuery)
+  withProps(useAnimeListQuery),
+  withProps(useAppState)
 )(AnimeListContainer);

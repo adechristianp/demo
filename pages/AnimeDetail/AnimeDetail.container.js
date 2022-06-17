@@ -49,7 +49,7 @@ const useAnimeDetailQuery = () => {
   }
 };
 
-const useAppState = (props) => {
+const useAppState = () => {
   const { collectionList, animeCollection } = useAppSelector(selectState);
 
   return {

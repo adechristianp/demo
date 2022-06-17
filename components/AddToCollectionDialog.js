@@ -36,7 +36,8 @@ const renderSnackbar = (snackbar, setSnackbar) => (
 );
 
 const AddToCollectionDialog = (props) => {
-  const { open, setOpen, media, collectionInfo } = props;
+  const { open, setOpen, data, collectionInfo, successCallback } = props;
+
   const collection = useAppSelector(selectCollection);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -53,7 +54,6 @@ const AddToCollectionDialog = (props) => {
 
   const handleClose = () => {
     setOpen(false);
-    setState(initialState);
     setSelectedCollection({});
   };
 
@@ -84,13 +84,26 @@ const AddToCollectionDialog = (props) => {
 
     Object.entries(selectedCollection).map(item => {
       if (item[1]) {
+        if (Array.isArray(data)) {
+          data.map(v => {
+            payload.push({
+              collectionId: parseInt(item[0]),
+              id: v.id,
+              title: v.title,
+              coverImage: v.coverImage,
+              averageScore: v.averageScore
+            });
+          });
+          return;
+        }
+
         payload.push({
           collectionId: parseInt(item[0]),
-          id: media.id,
-          title: media.title,
-          coverImage: media.coverImage,
-          averageScore: media.averageScore
-        })
+          id: data.id,
+          title: data.title,
+          coverImage: data.coverImage,
+          averageScore: data.averageScore
+        });
       }
     });
 
@@ -98,6 +111,7 @@ const AddToCollectionDialog = (props) => {
     setSuccessSnackbar('Saved to collection!');
     setSelectedCollection({});
     setOpen(false);
+    successCallback && successCallback();
   };
 
   return (

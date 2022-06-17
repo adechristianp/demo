@@ -180,7 +180,7 @@ const AnimeDetail = (props) => {
       <AddToCollectionDialog
         open={open}
         setOpen={setOpen}
-        media={media}
+        data={media}
         collectionInfo={collectIn}
       />
     </div >

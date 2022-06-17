@@ -50,7 +50,7 @@ export default function EditCollectionDialog(props) {
     setSnackbar({
       show: true,
       type: 'success',
-      message: 'Collection Saved!'
+      message: 'Collection Edited!'
     });
     onDismiss();
     setInput('');

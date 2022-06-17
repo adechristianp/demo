@@ -6,7 +6,8 @@ import {
   Grid,
   Typography,
   Rating,
-  IconButton
+  IconButton,
+  Checkbox
 } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +16,11 @@ import DeleteSharpIcon from '@mui/icons-material/DeleteSharp';
 
 const renderCover = (data, props) => {
   const { id, coverImage } = data;
-  const { withRemove, handleRemove } = props;
+  const { withRemove, handleRemove, withChecked, handleCheck, checkedList } = props;
+  const isChecked = checkedList.find(v => v.id === id);
+  const onCheck = (event) => {
+    handleCheck(event.target.checked, data);
+  };
 
   return (
     <div css={{ position: 'relative' }}>
@@ -51,6 +56,19 @@ const renderCover = (data, props) => {
           />
         </IconButton>
       }
+      {withChecked &&
+        <div css={{ position: 'absolute', top: 0, right: 0, margin: 5, backgroundColor: '#0003', borderRadius: 50 }} >
+          <Checkbox
+            checked={isChecked}
+            onChange={onCheck} sx={{
+              color: 'white',
+              '&.Mui-checked': {
+                color: 'white',
+              },
+            }}
+            defaultChecked={false}
+          />
+        </div>}
     </div>
   )
 };
@@ -89,7 +107,7 @@ const renderAnimeCard = (data, props) => {
   )
 };
 
-export default function AnimeGrid(props) {
+const AnimeGrid = (props) => {
   const { animeList } = props;
 
   return (
@@ -101,4 +119,15 @@ export default function AnimeGrid(props) {
       ))}
     </Grid>
   )
-}
+};
+
+AnimeGrid.defaultProps = {
+  animeList: [],
+  withRemove: false,
+  handleRemove: () => { },
+  withChecked: false,
+  handleCheck: () => { },
+  checkedList: []
+};
+
+export default AnimeGrid;
