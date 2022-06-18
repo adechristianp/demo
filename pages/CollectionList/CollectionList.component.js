@@ -119,7 +119,7 @@ const CollectionList = (props) => {
                           orientation="vertical"
                           variant="none"
                         >
-                          <Button onClick={() => onEdit(id, name)} key="one" size="small" startIcon={<EditIcon />} />
+                          <Button onClick={() => onEdit({ id, name })} key="one" size="small" startIcon={<EditIcon />} />
                           <Button onClick={() => onDelete({ id, name })} size="small" startIcon={<DeleteSharpIcon />} />
                         </ButtonGroup>
                       </CardActions>

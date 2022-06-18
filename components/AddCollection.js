@@ -13,7 +13,8 @@ const wrapper = css({
   justifyContent: 'space-between',
   alignItems: 'flex-end',
   gap: 10,
-  marginBottom: 40
+  marginBottom: 40,
+  maxWidth: 600
 });
 
 const snackbarState = {

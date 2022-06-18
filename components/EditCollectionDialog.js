@@ -73,7 +73,7 @@ export default function EditCollectionDialog(props) {
             label="collection name"
             fullWidth
             variant="standard"
-            onChange={(e) => setInput(e.target.value.replace(/[^a-zA-Z0-9]/g, ''))}
+            onChange={(e) => setInput(e.target.value.replace(/[^a-zA-Z0-9 ]/g, ''))}
           />
         </DialogContent>
         <DialogActions>
