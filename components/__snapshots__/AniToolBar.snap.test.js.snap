@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AniToolbar Component Snapshot Renders AniToolbar with back button and title 1`] = `
+<header
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-1f8m4u1-MuiPaper-root-MuiAppBar-root-ToolBar"
+>
+  <svg
+    aria-hidden={true}
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-ofg42n-MuiSvgIcon-root-ToolBar"
+    data-testid="ArrowBackIcon"
+    focusable="false"
+    onClick={[Function]}
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+    />
+  </svg>
+  <h4
+    className="MuiTypography-root MuiTypography-h4 css-1pi1kz0-MuiTypography-root-ToolBar"
+  >
+    Title
+  </h4>
+</header>
+`;
+
+exports[`AniToolbar Component Snapshot Renders AniToolbar with back button but without title 1`] = `
+<header
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-1f8m4u1-MuiPaper-root-MuiAppBar-root-ToolBar"
+>
+  <svg
+    aria-hidden={true}
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-ofg42n-MuiSvgIcon-root-ToolBar"
+    data-testid="ArrowBackIcon"
+    focusable="false"
+    onClick={[Function]}
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+    />
+  </svg>
+</header>
+`;
+
+exports[`AniToolbar Component Snapshot Renders AniToolbar with title but without back button 1`] = `
+<header
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-1f8m4u1-MuiPaper-root-MuiAppBar-root-ToolBar"
+>
+  <h4
+    className="MuiTypography-root MuiTypography-h4 css-1pi1kz0-MuiTypography-root-ToolBar"
+  >
+    Title
+  </h4>
+</header>
+`;
+
+exports[`AniToolbar Component Snapshot Renders AniToolbar without back button and title 1`] = `
+<header
+  className="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-1f8m4u1-MuiPaper-root-MuiAppBar-root-ToolBar"
+/>
+`;
