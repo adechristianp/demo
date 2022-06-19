@@ -16,7 +16,6 @@ export const collectionSlice = createSlice({
   initialState: localData || initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    updateState: (state, action) => state = action.payload,
     addCollection: (state, action) => {
       state.collectionList = [...state.collectionList, action.payload]
     },

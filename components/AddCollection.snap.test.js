@@ -1,6 +1,12 @@
 import renderer from 'react-test-renderer';
 import AddCollection from './AddCollection';
 
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(),
+  useDispatch: () => jest.fn()
+}));
+jest.mock('./Snackbar', () => 'SnackbarComponent');
+
 describe('AddCollection Component Snapshot', () => {
   it('Renders AddCollection component input', () => {
     const props = {

@@ -87,7 +87,6 @@ const CollectionList = (props) => {
               return (
                 <Grid item key={id} xs={12} md={6} lg={4}>
                   <div css={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', minHeight: 100, margin: 10 }}>
-                    {/* <Typography variant='h3' css={{ color: 'grey' }}>#{i + 1}</Typography> */}
                     <Card elevation={6} css={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                       <CardActionArea>
                         <Link
@@ -114,7 +113,7 @@ const CollectionList = (props) => {
                           </div>
                         </Link>
                       </CardActionArea>
-                      <CardActions css={{ display: 'flex', flexDirection: 'column' }}>
+                      <CardActions css={{ display: 'flex', flexDirection: 'column', color: 'grey' }}>
                         <ButtonGroup
                           orientation="vertical"
                           variant="none"

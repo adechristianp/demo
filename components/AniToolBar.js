@@ -42,7 +42,7 @@ const ToolBar = (props) => {
         borderBottomRightRadius: 5,
         borderBottomLeftRadius: 5
       }}>
-        {hasBackButton && <ArrowBack css={{ color: 'white' }} onClick={() => back()} />}
+        {hasBackButton && <ArrowBack aria-label="arrow-back" css={{ color: 'white' }} onClick={() => back()} />}
         {title && <Typography css={{ marginLeft: 20, color: 'white' }} variant="h4">{title}</Typography>}
         {props.children}
       </AppBar>

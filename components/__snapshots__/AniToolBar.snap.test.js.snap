@@ -6,6 +6,7 @@ exports[`AniToolbar Component Snapshot Renders AniToolbar with back button and t
 >
   <svg
     aria-hidden={true}
+    aria-label="arrow-back"
     className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-ofg42n-MuiSvgIcon-root-ToolBar"
     data-testid="ArrowBackIcon"
     focusable="false"
@@ -30,6 +31,7 @@ exports[`AniToolbar Component Snapshot Renders AniToolbar with back button but w
 >
   <svg
     aria-hidden={true}
+    aria-label="arrow-back"
     className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-ofg42n-MuiSvgIcon-root-ToolBar"
     data-testid="ArrowBackIcon"
     focusable="false"

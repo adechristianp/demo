@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snackbar Component Snapshot Renders error snackbar component 1`] = `
+Object {
+  "then": [Function],
+}
+`;
+
+exports[`Snackbar Component Snapshot Renders success snackbar component 1`] = `
+Object {
+  "then": [Function],
+}
+`;
+
+exports[`Snackbar Component Snapshot Renders warning snackbar component 1`] = `
+Object {
+  "then": [Function],
+}
+`;

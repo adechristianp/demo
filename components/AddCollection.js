@@ -63,6 +63,7 @@ export default function AddCollection({ collection }) {
   return (
     <div css={wrapper}>
       <TextField
+        aria-label="collection-input"
         css={{ width: '100%' }}
         label="input collection name"
         value={input}
@@ -70,6 +71,7 @@ export default function AddCollection({ collection }) {
         inputProps={{ maxLength: 30 }}
       />
       <Button
+        aria-label="collection-submit"
         variant="contained"
         startIcon={<AddCircleIcon />}
         onClick={handleAddCollection}
