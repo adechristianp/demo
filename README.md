@@ -1,8 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Ani-Animo is the website to serve anime lovers to fulfill their love for anime.
 
 ## Getting Started
 
-First, run the development server:
+To run the development server:
 
 ```bash
 npm run dev
@@ -12,23 +12,19 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+This web application has an `Anime List `page with pagination to show all anime provided by the API, `Anime Detail` to show the detail data of the anime, `Collection List` page to show collection group, and `Collection Detail` page to show the list of anime collection.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Anime List
+In the `Anime List` you can navigate to `Anime Detail` by clicking the anime `Card` and navigate to `Collection List` by clicking collection `Link` on the screen. You can bulk add anime to the collection by clicking the `Bulk Add` action, it will show a `checkbox` on top of each anime `Card` and will add one action button on the screen which is called `Collect`. After selecting your desired anime, and you click the `Collect` button, it will trigger a popup to select your desired collection to save the animes you've selected. If there is no collection added yet, you can add it by inputting the collection name on the input field in the popup and clicking the `Add` button to add a new collection group. After you select the collection you can click the `Save` button at the bottom of the popup to save the anime to the collection.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Anime Detail
+In the `Anime Detail` you also can add anime to the collection by click add button. It will show popup to select your desired collection. After the anime saved to the collection, the button `Collected In` will be enabled. When you click it, it will show list of collections where the anime is collected. When you click the collection name on the list, it will navigating to `Collection Detail` page.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Collection List
+In the `Collection List`, you will see a list of collections you've saved. On each collection list, there is an `edit` and `remove` icon. Edit icon is used to edit the collection name, by clicking the icon, will trigger the popup to input the collection name. The remove icon is used to remove the collection from the list. It will trigger a confirmation popup on clicking the icon.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Collection Detail
+In the `Collection Detail` will show the anime list you have saved to the collection. On each anime `Card` there is a `remove` icon. The remove icon is used to remove the selected anime from the collection. You can also edit the collection name insidte the `Collection Detail` page by clicking the edit icon beside the `Collection Name` bellow the `toolbar`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
