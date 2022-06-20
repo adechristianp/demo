@@ -51,7 +51,6 @@ const AnimeList = (props) => {
 
   const handlePageChange = async (e, value) => {
     setIsLoading(true);
-    setAnimes([]);
     const { data: { Page: { media } } } = await fetchMore({
       variables: { page: value, perPage: 10 }
     });

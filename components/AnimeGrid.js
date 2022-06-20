@@ -32,6 +32,12 @@ const renderSkeleton = () => {
   )
 };
 
+const NoData = () => (
+  <div css={{ height: '75vh', display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'lightgrey' }}>
+    <Typography variant="h3">No Data</Typography>
+  </div>
+);
+
 const renderCover = (data, props) => {
   const { id, coverImage } = data;
   const { withRemove, handleRemove, withChecked, handleCheck, checkedList } = props;
@@ -128,7 +134,7 @@ const renderAnimeCard = (data, props) => {
 
 const AnimeGrid = (props) => {
   const { animeList, loading } = props;
-
+  if (animeList.length === 0) return <NoData />
   return (
     <Grid container spacing={3} css={{ padding: 20 }}>
       {loading
