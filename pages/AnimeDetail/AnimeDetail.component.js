@@ -185,4 +185,25 @@ const AnimeDetail = (props) => {
   )
 };
 
+AnimeDetail.defaultProps = {
+  loading: false,
+  animeCollection: [],
+  collectionList: [],
+  media: {
+    id: null,
+    coverImage: {
+      large: ''
+    },
+    title: {
+      romaji: ''
+    },
+    averageScore: 0,
+    description: '',
+    genres: [],
+    format: '',
+    type: '',
+    duration: 0
+  }
+};
+
 export default AnimeDetail;

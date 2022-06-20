@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnimeDetailSkeleton Component Snapshot Renders AnimeDetailSkeleton component input 1`] = `
+<div
+  className="css-16ca04s-AnimeDetailSkeleton"
+>
+  <AniToolBar
+    hasBackButton={true}
+    title="Anime Detail"
+  />
+  <div
+    className="MuiGrid-root MuiGrid-container css-3fzui7-MuiGrid-root-AnimeDetailSkeleton"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-4 css-1e6jbaj-MuiGrid-root"
+    >
+      <span
+        className="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-wave css-i7obss-MuiSkeleton-root-AnimeDetailSkeleton"
+        style={
+          Object {
+            "height": "60vh",
+            "width": undefined,
+          }
+        }
+      />
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-6 css-1fyyp8j-MuiGrid-root"
+    >
+      <span
+        className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-wave css-1dk1h2u-MuiSkeleton-root"
+        style={
+          Object {
+            "height": 75,
+            "width": undefined,
+          }
+        }
+      />
+      <div
+        className="css-st3jg2-AnimeDetailSkeleton"
+      >
+        <span
+          className="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-twt492-MuiSkeleton-root"
+          style={
+            Object {
+              "height": undefined,
+              "width": 18,
+            }
+          }
+        />
+        <span
+          className="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-twt492-MuiSkeleton-root"
+          style={
+            Object {
+              "height": undefined,
+              "width": 18,
+            }
+          }
+        />
+        <span
+          className="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-twt492-MuiSkeleton-root"
+          style={
+            Object {
+              "height": undefined,
+              "width": 18,
+            }
+          }
+        />
+        <span
+          className="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-twt492-MuiSkeleton-root"
+          style={
+            Object {
+              "height": undefined,
+              "width": 18,
+            }
+          }
+        />
+        <span
+          className="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-wave css-twt492-MuiSkeleton-root"
+          style={
+            Object {
+              "height": undefined,
+              "width": 18,
+            }
+          }
+        />
+      </div>
+      <span
+        className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+        style={
+          Object {
+            "height": undefined,
+            "width": "30%",
+          }
+        }
+      />
+      <span
+        className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+        style={
+          Object {
+            "height": undefined,
+            "width": "30%",
+          }
+        }
+      />
+      <span
+        className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+        style={
+          Object {
+            "height": "10vh",
+            "width": "30%",
+          }
+        }
+      />
+      <span
+        className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+        style={
+          Object {
+            "height": "30vh",
+            "width": undefined,
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

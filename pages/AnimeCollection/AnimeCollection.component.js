@@ -17,7 +17,7 @@ const renderSnackbar = (snackbar, setSnackbar) => (
   />
 );
 
-export default function AnimeCollection(props) {
+const AnimeCollection = (props) => {
   const { animes, collectionList, router, allAnimeCollection, dispatch } = props;
   const [open, setOpen] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -80,4 +80,14 @@ export default function AnimeCollection(props) {
       {renderSnackbar(snackbar, setSnackbar)}
     </div >
   )
-}
+};
+
+AnimeCollection.defaultProps = {
+  animes: [],
+  collectionList: [],
+  router: {},
+  allAnimeCollection: [],
+  dispatch: () => { }
+};
+
+export default AnimeCollection;

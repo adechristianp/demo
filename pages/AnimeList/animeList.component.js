@@ -19,11 +19,11 @@ import {
 } from '../../components'
 
 const { snackbarInitialState } = config;
-const useAnimesEffect = ({ pageList }, setAnimes) => {
+const useAnimesEffect = ({ animeList }, setAnimes) => {
   useEffect(() => {
-    setAnimes(pageList);
+    setAnimes(animeList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageList]);
+  }, [animeList]);
 };
 
 const renderSnackbar = (snackbar, setSnackbar) => (
@@ -36,9 +36,9 @@ const renderSnackbar = (snackbar, setSnackbar) => (
 );
 
 const AnimeList = (props) => {
-  const { loading, pageList, pageInfo, fetchMore, animeCollection } = props;
+  const { loading, animeList, pageInfo, fetchMore, animeCollection } = props;
 
-  const [animes, setAnimes] = useState(pageList);
+  const [animes, setAnimes] = useState(animeList);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [checkedList, setCheckedList] = useState([]);
@@ -147,4 +147,14 @@ const AnimeList = (props) => {
   )
 };
 
+AnimeList.defaultProps = {
+  loading: false,
+  animeList: [],
+  pageInfo: {
+    count: 0,
+    lastPage: 1
+  },
+  fetchMore: () => { },
+  animeCollection: []
+}
 export default AnimeList;

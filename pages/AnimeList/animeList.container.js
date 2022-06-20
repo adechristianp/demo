@@ -43,13 +43,13 @@ const useAnimeListQuery = () => {
     },
   });
 
-  const pageList = get(data, 'Page.media', []);
+  const animeList = get(data, 'Page.media', []);
   const pageInfo = get(data, 'Page.pageInfo', {});
 
   return {
     loading,
     error,
-    pageList,
+    animeList,
     pageInfo,
     fetchMore
   };
