@@ -134,7 +134,9 @@ const renderAnimeCard = (data, props) => {
 
 const AnimeGrid = (props) => {
   const { animeList, loading } = props;
-  if (animeList.length === 0) return <NoData />
+
+  if (!loading && animeList.length === 0) return <NoData />
+
   return (
     <Grid container spacing={3} css={{ padding: 20 }}>
       {loading

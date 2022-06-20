@@ -16,7 +16,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const ROUTES_TO_RETAIN = ['/'];
+const ROUTES_TO_RETAIN = ['/', '/CollectionList'];
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter()
