@@ -1,4 +1,4 @@
-Ani-Animo is the website to serve anime lovers to fulfill their love for anime.
+Ani-Animo is the platform to serve anime lovers to fulfill their love for anime.
 
 ## Getting Started
 
